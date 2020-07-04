@@ -1,5 +1,6 @@
 import numpy as np
-from probs import *
+from prob_model import probab, random_walk
+
 
 def main():
 	xs = [10, 10, 20, 15]
@@ -10,7 +11,7 @@ def main():
 	# reproduction rate per 1 prey eaten
 	γ = np.random.beta(1, 10)
 
-	temp, probs = mean_revert_rand_walk_gausian_step()
+	temp, probs = random_walk.mean_revert_rand_walk_gausian_step()
 
     rabbits = []; foxes = []
     for x0, y0 in zip(xs, ys):
@@ -19,9 +20,9 @@ def main():
         for idx, _ in enumerate(temp, start=1):
 #           print('rabbit population: ', rabbit[-1])
 
-            rab_growth = growth_abs(rabbit, idx, δ)
+            rab_growth = probab.growth_abs(rabbit, idx, δ)
 #           print('rabbit growth: ', rab_growth)
-            rab_mort = mort_prey(probs, θ, idx, rabbit, fox)  
+            rab_mort = probab.mort_prey(probs, θ, idx, rabbit, fox)  
 #           print('rabbit mortality: ', rab_mort)
 
             rabbit.append(rabbit[idx - 1]
@@ -33,8 +34,8 @@ def main():
 
 #           print('fox population: ', fox[-1])
 
-            fox_rep = reproduce(γ, rab_mort, fox[idx - 1])
-            fox_mort = spieces_mort(fox, idx, χ)
+            fox_rep = probab.reproduce(γ, rab_mort, fox[idx - 1])
+            fox_mort = probab.spieces_mort(fox, idx, χ)
 
             fox.append(fox[idx - 1]   
                        + fox_rep
