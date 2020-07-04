@@ -1,4 +1,5 @@
 import scipy.stats as scst
+import numpy as np
 
 def mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 100000):
     '''
