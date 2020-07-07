@@ -1,6 +1,6 @@
 import numpy as np
 
-def rabbit_fox_env(x0, y0, α, β, γ, δ, dt = 1e-3, len_t = 100):
+def rabbit_fox_env(x0, y0, α, β, γ, δ, dt = 1e-3, len_t = 1/8):
     '''
     Simple loteka-volterra differential equation model - see https://en.wikipedia.org/wiki/Lotka–Volterra_equations
     for details of the underlying assumptions.
@@ -55,12 +55,13 @@ def multi_init_rabbit_fox_env(xs, ys, α, β, γ, δ):
     ys (list of int): initial values for Predator (Foxes)
     
     '''
-    rabbits = []
-    foxes = []
-    for x0, y0 in zip(xs, ys):
+    n = len(xs)
+    rabbits = np.zeros((n, 125))
+    foxes = np.zeros((n, 125))
+    for idx, (x0, y0) in enumerate(zip(xs, ys)):
         rabbit, fox, t, x0, y0 = rabbit_fox_env(x0, y0, α, β, γ, δ)
-        rabbits.append(rabbit)
-        foxes.append(fox)
+        rabbits[idx, :] = rabbit
+        foxes[idx, :] = fox
     
     
-    return rabbits, foxes, xs, ys
+    return rabbits, foxes

@@ -1,4 +1,5 @@
 import numpy as np
+from prob_model import random_walk
 
 def reproduce(γ, mort_p, foxes):
     '''
@@ -80,3 +81,50 @@ def growth_abs(rabbit, idx, δ):
     '''
     n = 0 if rabbit[idx - 1] <= 1 else rabbit[idx - 1]
     return np.random.binomial(np.floor(n / 2), δ)
+
+
+def multi_init_rabbit_fox_env(xs, ys):
+    '''
+
+    '''
+    θ = np.random.beta(1, 10)
+    δ = np.random.beta(1, 5)
+    χ = np.random.beta(1, 10)
+    # reproduction rate per 1 prey eaten
+    γ = np.random.beta(1, 10)
+    n = len(xs)
+    
+    temp, probs = random_walk.mean_revert_rand_walk_gausian_step()
+    rabbits = np.zeros((n, 500)); foxes = np.zeros((n, 500))
+    for idx, (x0, y0) in enumerate(zip(xs, ys)):
+        rabbit = []; fox = []
+        rabbit.append(x0); fox.append(y0)
+        for idx, _ in enumerate(temp, start=1):
+#           print('rabbit population: ', rabbit[-1])
+
+            rab_growth = growth_abs(rabbit, idx, δ)
+#           print('rabbit growth: ', rab_growth)
+            rab_mort = mort_prey(probs, θ, idx, rabbit, fox)  
+#           print('rabbit mortality: ', rab_mort)
+
+            rabbit.append(rabbit[idx - 1]
+                          + rab_growth
+                          - rab_mort)
+
+            if (rabbit[-1] <= 1):
+                break
+
+#           print('fox population: ', fox[-1])
+
+            fox_rep = reproduce(γ, rab_mort, fox[idx - 1])
+            fox_mort = spieces_mort(fox, idx, χ)
+
+            fox.append(fox[idx - 1]   
+                       + fox_rep
+                       - fox_mort)
+
+            if (fox[-1] <= 1):
+                break
+        rabbits[idx, :len(rabbit)] = rabbit; foxes[idx, :len(fox)] = fox
+    return rabbits, foxes
+
