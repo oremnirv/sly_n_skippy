@@ -1,7 +1,7 @@
 import scipy.stats as scst
 import numpy as np
 
-def mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 10000):
+def mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 500):
     '''
     This random walk prevents variance from exploding to infinity. For each temperature value
     check where it falls in the cumulative distribution function with mean equlas to temp[0]. 

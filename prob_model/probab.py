@@ -125,6 +125,6 @@ def multi_init_rabbit_fox_env(xs, ys):
 
             if (fox[-1] <= 1):
                 break
-        rabbits[idx, :len(rabbit)] = rabbit; foxes[idx, :len(fox)] = fox
+        rabbits[idx, :len(rabbit)] = np.array(rabbit); foxes[idx, :len(fox)] = np.array(fox)
     return rabbits, foxes
 
