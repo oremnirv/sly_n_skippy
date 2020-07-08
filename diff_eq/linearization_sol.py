@@ -25,8 +25,9 @@ def rabbit_fox_env(x0, y0, α, β, γ, δ, dt = 1e-3, len_t = 1/8):
     
     '''
     rabbit = []; fox = []
-    rabbit.append(x0); fox.append(y0) 
-    t = np.arange(0, len_t, dt)
+    rabbit.append(x0); fox.append(y0)
+    dt_multiplier = np.random.randint(1, 9) 
+    t = np.arange(0, len_t, dt_multiplier * dt)
     for idx, _ in enumerate(t):
         if (idx == 0):
             continue
