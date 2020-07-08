@@ -20,11 +20,11 @@ def seq_max_len_w_o_padding(arr):
 
     '''
     cc = []
-    for i in range(pro_foxes.shape[0]):
+    for i in range(arr.shape[0]):
         try:
-            cc.append(np.where(pro_foxes[i, :] == 0)[0][0])
+            cc.append(np.where(arr[i, :] == 0)[0][0])
         except:
-            cc.append(pro_foxes.shape[1])
+            cc.append(arr.shape[1])
             break
     return max(cc)
 
