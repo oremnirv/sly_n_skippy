@@ -39,7 +39,7 @@ def data_combination(foxes_ode, rabbits_ode, foxes_prob, rabbits_prob, ode_t, pr
 
     combined_array = np.zeros((foxes_ode.shape[0] * 5, n_columns))
 
-    for idx in range(foxes_ode.shape[0]):
+    for idx in range(0, foxes_ode.shape[0], 5):
 
         ode_m = np.where(foxes_ode[idx, :] != 0)[0][-1] + 1
         prob_m = np.where(foxes_prob[idx, :] != 0)[0][-1] + 1
