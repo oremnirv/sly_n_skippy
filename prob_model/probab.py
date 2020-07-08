@@ -94,20 +94,20 @@ def multi_init_rabbit_fox_env(xs, ys):
     γ = np.random.beta(1, 10)
     n = len(xs)
     
-    temp, probs = random_walk.mean_revert_rand_walk_gausian_step()
+    temp, probs = random_walk.mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 499)
     rabbits = np.zeros((n, 500)); foxes = np.zeros((n, 500))
     for idx, (x0, y0) in enumerate(zip(xs, ys)):
         rabbit = []; fox = []
         rabbit.append(x0); fox.append(y0)
-        for idx, _ in enumerate(temp, start=1):
+        for idd, _ in enumerate(temp, start=1):
 #           print('rabbit population: ', rabbit[-1])
 
-            rab_growth = growth_abs(rabbit, idx, δ)
+            rab_growth = growth_abs(rabbit, idd, δ)
 #           print('rabbit growth: ', rab_growth)
-            rab_mort = mort_prey(probs, θ, idx, rabbit, fox)  
+            rab_mort = mort_prey(probs, θ, idd, rabbit, fox)  
 #           print('rabbit mortality: ', rab_mort)
 
-            rabbit.append(rabbit[idx - 1]
+            rabbit.append(rabbit[idd - 1]
                           + rab_growth
                           - rab_mort)
 
@@ -116,10 +116,10 @@ def multi_init_rabbit_fox_env(xs, ys):
 
 #           print('fox population: ', fox[-1])
 
-            fox_rep = reproduce(γ, rab_mort, fox[idx - 1])
-            fox_mort = spieces_mort(fox, idx, χ)
+            fox_rep = reproduce(γ, rab_mort, fox[idd - 1])
+            fox_mort = spieces_mort(fox, idd, χ)
 
-            fox.append(fox[idx - 1]   
+            fox.append(fox[idd - 1]   
                        + fox_rep
                        - fox_mort)
 
