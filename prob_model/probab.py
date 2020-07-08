@@ -94,7 +94,7 @@ def multi_init_rabbit_fox_env(xs, ys):
     γ = np.random.beta(1, 10)
     n = len(xs)
     
-    rabbits = np.zeros((n, 500)); foxes = np.zeros((n, 500))
+    rabbits = np.zeros((n, 500)); foxes = np.zeros((n, 500)); times = np.zeros((n, 500))
     for idx, (x0, y0) in enumerate(zip(xs, ys)):
         temp, probs, dts = random_walk.mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 499)
         rabbit = []; fox = []
@@ -125,6 +125,6 @@ def multi_init_rabbit_fox_env(xs, ys):
 
             if (fox[-1] <= 1):
                 break
-        rabbits[idx, :len(rabbit)] = np.array(rabbit); foxes[idx, :len(fox)] = np.array(fox)
-    return rabbits, foxes
+        rabbits[idx, :len(rabbit)] = np.array(rabbit); foxes[idx, :len(fox)] = np.array(fox); times[idx, :len(dts)] = np.cumsum(dts)
+    return rabbits, foxes, times
 

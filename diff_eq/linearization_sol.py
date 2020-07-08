@@ -59,10 +59,12 @@ def multi_init_rabbit_fox_env(xs, ys, α, β, γ, δ):
     n = len(xs)
     rabbits = np.zeros((n, 125))
     foxes = np.zeros((n, 125))
+    times = np.zeros((n, 125))
     for idx, (x0, y0) in enumerate(zip(xs, ys)):
         rabbit, fox, t, x0, y0 = rabbit_fox_env(x0, y0, α, β, γ, δ)
         rabbits[idx, :len(rabbit)] = rabbit
         foxes[idx, :len(fox)] = fox
+        times[idx, :len(t)] = t
     
     
-    return rabbits, foxes
+    return rabbits, foxes, times
