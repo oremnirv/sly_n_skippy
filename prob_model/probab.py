@@ -94,9 +94,9 @@ def multi_init_rabbit_fox_env(xs, ys):
     γ = np.random.beta(1, 10)
     n = len(xs)
     
-    temp, probs = random_walk.mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 499)
     rabbits = np.zeros((n, 500)); foxes = np.zeros((n, 500))
     for idx, (x0, y0) in enumerate(zip(xs, ys)):
+        temp, probs, dts = random_walk.mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 499)
         rabbit = []; fox = []
         rabbit.append(x0); fox.append(y0)
         for idd, _ in enumerate(temp, start=1):

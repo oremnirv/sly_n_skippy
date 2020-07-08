@@ -12,7 +12,7 @@ def mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 500):
     -------------------
     Parameters:
     temp (list of float): a list of one element with an intial tempertaure value (mean) in its first element 
-    temp_steps (int): # steps to run the function
+    temp_steps (int): # days to run the function where 1e-3 is one day
     -------------------
     Returns: 
     temp (list of floats): the temperatures observed during the random walk
@@ -20,8 +20,11 @@ def mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 500):
     which indicates the mingling probability of foxes (higher temperature, more mingling). 
     This argument will be an input to mort_prey function.   
     '''
+    dts = []
     
     while True:
+        dt = np.random.beta(1, 300)
+        dts.append(dt)
         curr_val = temp[-1] - temp[0]
         cdf_val = scst.norm.cdf(curr_val, loc = 0, scale = 3)    
         p_right = 1 - cdf_val
@@ -29,13 +32,13 @@ def mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 500):
         p = 'R' if (np.random.uniform(0, 1) <= p_right) else 'L'
         
         if p=='R':
-            temp.append(temp[-1] + scst.truncnorm.rvs(a = 0, b = np.inf ,loc = 0, scale = 3))
+            temp.append(temp[-1] + scst.truncnorm.rvs(a = 0, b = np.inf ,loc = 0, scale = 3 * dt * 1000 / 9))
 
         else:
-            temp.append(temp[-1] + scst.truncnorm.rvs(a = - np.inf , b = 0, loc = 0, scale = 3))
+            temp.append(temp[-1] + scst.truncnorm.rvs(a = - np.inf , b = 0, loc = 0, scale = 3 * dt * 1000 / 9))
 
 
-        if (len(temp) >= temp_steps):
+        if (sum(dts) >= (temp_steps * 1e-3)):
             break
     shifted_temp = np.array(temp)  - (min(temp))
-    return temp,  shifted_temp / (max(shifted_temp) * 10)
+    return temp,  shifted_temp / (max(shifted_temp) * 10), dts
