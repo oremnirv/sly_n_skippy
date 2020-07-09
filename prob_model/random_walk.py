@@ -23,7 +23,7 @@ def mean_revert_rand_walk_gausian_step(temp = [17], temp_steps = 500):
     dts = []
     
     while True:
-        dt = np.random.beta(1, 300)
+        dt = np.random.beta(1, 300) + 0.00001
         dts.append(dt)
         curr_val = temp[-1] - temp[0]
         cdf_val = scst.norm.cdf(curr_val, loc = 0, scale = 3)    
