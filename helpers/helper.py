@@ -41,20 +41,20 @@ def data_combination(foxes_ode, rabbits_ode, foxes_prob, rabbits_prob, ode_t, pr
 
     for idx in range(0, foxes_ode.shape[0] * 5, 5):
 
-        ode_m = np.where(foxes_ode[idx, :] != 0)[0][-1] + 1
-        prob_m = np.where(foxes_prob[idx, :] != 0)[0][-1] + 1
+        ode_m = np.where(foxes_ode[int(idx / 5), :] != 0)[0][-1] + 1
+        prob_m = np.where(foxes_prob[int(idx / 5), :] != 0)[0][-1] + 1
 
         m = ode_m + prob_m
 
         combined_array[idx, :m] = np.concatenate(
-            (foxes_ode[idx, :ode_m], foxes_prob[idx, :prob_m]))
+            (foxes_ode[int(idx / 5), :ode_m], foxes_prob[int(idx / 5), :prob_m]))
 
         combined_array[idx + 1, :m] = np.concatenate(
-            (rabbits_ode[idx, :ode_m], rabbits_prob[idx, :prob_m]))
+            (rabbits_ode[int(idx / 5), :ode_m], rabbits_prob[int(idx / 5), :prob_m]))
 
 
         combined_array[(idx + 2),
-                       :m] = np.concatenate((ode_t[idx, :ode_m], prob_t[idx, :prob_m]))
+                       :m] = np.concatenate((ode_t[int(idx / 5), :ode_m], prob_t[int(idx / 5), :prob_m]))
 
         combined_array[(idx + 3),
                        :m] = np.concatenate((np.ones(ode_m), np.ones(prob_m) * 2))
