@@ -1,3 +1,6 @@
+###########################
+# Author: Omer Nivron
+###########################
 import numpy as np
 
 

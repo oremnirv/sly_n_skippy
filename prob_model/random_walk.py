@@ -1,3 +1,6 @@
+###########################
+# Author: Omer Nivron
+###########################
 import scipy.stats as scst
 import numpy as np
 

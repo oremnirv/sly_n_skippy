@@ -1,3 +1,6 @@
+###########################
+# Author: Omer Nivron
+###########################
 import numpy as np
 
 def rabbit_fox_env(x0, y0, α, β, γ, δ, dt = 1e-3, len_t = 1/8):

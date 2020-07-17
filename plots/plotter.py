@@ -1,3 +1,6 @@
+###########################
+# Author: Omer Nivron
+###########################
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 

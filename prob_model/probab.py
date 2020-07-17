@@ -1,3 +1,6 @@
+###########################
+# Author: Omer Nivron
+###########################
 import numpy as np
 from prob_model import random_walk
 
