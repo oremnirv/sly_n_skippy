@@ -3,11 +3,11 @@
 ###########################
 import numpy as np
 
-def rabbit_fox_env(x0, y0, α, β, γ, δ, dt = 1e-3, len_t = 1/8):
+def rabbit_fox_env(x0, y0, α, β, γ, δ, dt = 1e-3, len_t = 1000):
     '''
     Simple loteka-volterra differential equation model - see https://en.wikipedia.org/wiki/Lotka–Volterra_equations
     for details of the underlying assumptions.
-    
+    α, β, γ, δ = 1.1, 0.4, 0.4, 0.1
     ------
     Parameters:
     x0 (int): initial value for prey (Rabbits)
@@ -29,19 +29,19 @@ def rabbit_fox_env(x0, y0, α, β, γ, δ, dt = 1e-3, len_t = 1/8):
     '''
     rabbit = []; fox = []
     rabbit.append(x0); fox.append(y0)
-    dt_multiplier = np.random.randint(1, 9) 
-    t = np.arange(0.00001, len_t, dt_multiplier * dt)
+    # dt_multiplier = np.random.randint(1, 9) 
+    t = np.arange(0.00001, len_t, dt)
     for idx, _ in enumerate(t):
         if (idx == 0):
             continue
         r = rabbit[-1] ; f = fox[-1]
-        # The term β * (f * r)  - reminds a binomial experiment.  
+        # The term β * (f * r)  - reminds a binomial experiment.  # see file "sum_of_binomials_random_vars"
         rabbit.append(r + dt * (α * r - β * (f * r)))
         fox.append(f + dt * (δ * (f * r) - γ * f))
     return rabbit, fox, t, x0, y0
 
 
-def multi_init_rabbit_fox_env(xs, ys, α, β, γ, δ):
+def multi_init_rabbit_fox_env(xs, ys, α, β, γ, δ, num_tsteps):
     '''
     ------------
     Parameters:
@@ -60,11 +60,11 @@ def multi_init_rabbit_fox_env(xs, ys, α, β, γ, δ):
     
     '''
     n = len(xs)
-    rabbits = np.zeros((n, 125))
-    foxes = np.zeros((n, 125))
-    times = np.zeros((n, 125))
+    rabbits = np.zeros((n, num_tsteps))
+    foxes = np.zeros((n, num_tsteps))
+    times = np.zeros((n, num_tsteps))
     for idx, (x0, y0) in enumerate(zip(xs, ys)):
-        rabbit, fox, t, x0, y0 = rabbit_fox_env(x0, y0, α, β, γ, δ)
+        rabbit, fox, t, x0, y0 = rabbit_fox_env(x0, y0, α, β, γ, δ, 100)
         rabbits[idx, :len(rabbit)] = rabbit
         foxes[idx, :len(fox)] = fox
         times[idx, :len(t)] = t
